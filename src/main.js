@@ -3,10 +3,30 @@ import './style.scss';
 
 new Vue({
   el: '#app',
-  data: {
-    message: 'hello world'
-  },
-  methods: {
-
+  components: {
+    'movie-list': {
+      template: `
+      <div id="movie-list">
+        <div v-for="movie in movies" class="movie">
+          {{ movie.title }}
+        </div>
+      </div>`,
+      data () {
+        return {
+          movies: [
+            { title: 'Pulp Fiction' },
+            { title: 'Home Alone' },
+            { title: 'Austin Powers' }
+          ]
+        }
+      }
+    },
+    'movie-filter': {
+      template: `
+      <div id="movie-filter">
+        <h3>Filter Results<h3>
+      </div>
+      `
+    }
   }
 })
