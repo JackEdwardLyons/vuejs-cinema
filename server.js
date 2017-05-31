@@ -1,10 +1,10 @@
 require('dotenv').config({ silent: true });
 
 const express = require('express');
-const app = express();
-const path = require('path');
-const fs = require('fs');
-const api = require('./api');
+const app     = express();
+const path    = require('path');
+const fs      = require('fs');
+const api     = require('./api');
 
 if (process.env.NODE_ENV === 'development') {
   require('./webpack-dev-middleware').init(app);
