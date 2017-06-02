@@ -1,5 +1,3 @@
-<!-- CHECK FILTER COMPONENT -->
-
 <!-- Template -->
 <template>
   <div class="check-filter" 

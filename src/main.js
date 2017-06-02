@@ -3,12 +3,16 @@ import "./style.scss";
 // Components
 import MovieList from './components/MovieList.vue';
 import MovieFilter from './components/MovieFilter.vue';
+// ajax
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
 
 new Vue({
 	el: "#app",
   data: {
-    genre: [],
-    time: []
+    genre:  [],
+    time:   [],
+    movies: []
   },
   methods: {
     checkFilter(category, genre, checked) {
@@ -27,5 +31,11 @@ new Vue({
 	components: {
     MovieList,
 		MovieFilter
+  },
+  created() {
+    this.$http.get('/api').then(response => {
+      this.movies = response.data;  // .map(movie => movie.movie['Title'])
+      console.log(this.movies);
+    })
   }
 });

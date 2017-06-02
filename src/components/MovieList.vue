@@ -1,18 +1,18 @@
-<!-- MOVIE LIST COMPONENT -->
-
 <!-- Template -->
 <template>
   <div id="movie-list" >
-    <div v-for="movie in filteredMovies" class="movie">
-      {{ movie.title }}
-    </div>
+    <movie-item v-for="movie in filteredMovies" 
+                :movie="movie">
+    </movie-item>
   </div>
 </template>
 <!-- JavaScript -->
 <script>
-import genres from "../util/genres.js";
+import genres    from "../util/genres.js";
+import MovieItem from "./MovieItem.vue";
+
 export default { 
-  props: [ 'genre', 'time' ],
+  props: [ 'genre', 'time', 'movies' ],
   methods: {},
   computed: {
     filteredMovies() {
@@ -25,15 +25,7 @@ export default {
       });
     }
   },
-  data() {
-    return {
-      movies: [
-        { title: "Pulp Fiction",  genre: genres.CRIME  },
-        { title: "Home Alone",    genre: genres.COMEDY },
-        { title: "Austin Powers", genre: genres.COMEDY }
-      ]
-    };
-  }
+  components: { MovieItem }
 }
 </script>
 <!-- Styles -->
