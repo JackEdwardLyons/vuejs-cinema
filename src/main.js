@@ -1,6 +1,8 @@
 import Vue from "vue";
 import "./style.scss";
-import genres from "./util/genres";
+// Components
+import MovieList from './components/MovieList.vue';
+import MovieFilter from './components/MovieFilter.vue';
 
 new Vue({
 	el: "#app",
@@ -23,88 +25,7 @@ new Vue({
     }
   },
 	components: {
-		"movie-list": { 
-      props: [ 'genre', 'time' ],
-      methods: {},
-      computed: {
-        filteredMovies() {
-          return this.movies.filter((movie) => {
-            // if no items in the genre array, return all movies
-            return (!this.genre.length) 
-              ? true
-              // this.genre refers to the genre property that is passed in from the root.
-              : this.genre.find(category => movie.genre === category);
-          });
-        }
-      },
-      data() {
-				return {
-					movies: [
-						{ title: "Pulp Fiction",  genre: genres.CRIME  },
-						{ title: "Home Alone",    genre: genres.COMEDY },
-						{ title: "Austin Powers", genre: genres.COMEDY }
-					]
-				};
-			},
-			template: `
-      <div id="movie-list" >
-        <div v-for="movie in filteredMovies" class="movie">
-          {{ movie.title }}
-        </div>
-      </div>`
-		},
-		"movie-filter": {
-      data() {
-        return {
-          genres
-        }
-      },
-      methods: {
-        checkFilter(category, genre, checked) {
-          // pass the args up the chain to the root instance
-          this.$emit('check-filter', category, genre, checked);
-        }
-      },
-			template: `
-      <div id="movie-filter">
-        <h3>Filter Results</h3>
-        <div class="filter-group">
-          <check-filter v-for="(genre, key) in genres" 
-                        :genre="genre" 
-                        @check-filter="checkFilter"
-                        :key="key">
-          </check-filter>
-        </div>
-      </div>
-      `,
-      // This component only exists within the movie-filter
-			components: {
-				"check-filter": {
-          props: [ 'genre' ],
-          methods: {
-            checkFilter() {
-              this.checked = !this.checked;
-              // $emit can take infinite number of args
-              this.$emit('check-filter', 'genre', this.genre, this.checked);
-            }
-          },
-          data() {
-						return {
-							checked: false
-						};
-					},
-					template: `
-            <div class="check-filter" 
-                 :class="{ active: checked }" 
-                 @click="checkFilter">
-
-              <span class="checkbox"></span>
-              <span class="check-filter-title">{{ genre }}</span>
-
-            </div>
-          `
-				}
-			}
-		}
-	}
+    MovieList,
+		MovieFilter
+  }
 });
