@@ -7,6 +7,13 @@
       <div class="movie-title">
         <h2>{{ movie.Title }}</h2>
         <span class="movie-rating">{{ movie.Rated }}</span>
+        
+        <div class="movie-sessions">
+          <div v-for="session in sessions" class="session-time-wrapper">
+            <div class="session-time">{{ formattedSession(session.time) }}</div>
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -14,6 +21,12 @@
 
 <script>
 export default {
-  props: [ 'movie' ]
+  props: [ 'movie', 'sessions' ],
+  methods: {
+    formattedSession(val) {
+      // define a time format string
+      return this.$moment(val).format('h:mm A');
+    }
+  }
 }
 </script>
