@@ -6,13 +6,24 @@ import MovieFilter from './components/MovieFilter.vue';
 // ajax
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
+// moment.js 
+import moment from 'moment-timezone';
+moment.tz.setDefault('UTC');
+// add property to existing object
+// use $ to indicate it is a public API method
+Object.defineProperty(Vue.prototype, '$moment', { 
+  // every component has access to $root of the app
+  get() { return this.$root.moment } 
+});
+
 
 new Vue({
 	el: "#app",
   data: {
     genre:  [],
     time:   [],
-    movies: []
+    movies: [],
+    moment
   },
   methods: {
     checkFilter(category, genre, checked) {

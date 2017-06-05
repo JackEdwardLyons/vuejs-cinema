@@ -1,9 +1,15 @@
 <!-- Template -->
 <template>
-  <div id="movie-list" >
-    <movie-item v-for="movie in filteredMovies" 
-                :movie="movie">
-    </movie-item>
+  <div id="movie-list">
+    <div v-if="filteredMovies.length">
+      <movie-item v-for="movie in filteredMovies" :movie="movie.movie"></movie-item>
+    </div>
+    <div v-else-if="movies.length" class="no-results">
+      No results for {{ genre | joinGenres }}
+    </div>
+    <div v-else class="no-results">
+      Loading...
+    </div>
   </div>
 </template>
 <!-- JavaScript -->
@@ -13,19 +19,38 @@ import MovieItem from "./MovieItem.vue";
 
 export default { 
   props: [ 'genre', 'time', 'movies' ],
-  methods: {},
-  computed: {
-    filteredMovies() {
-      return this.movies.filter((movie) => {
-        // if no items in the genre array, return all movies
-        return (!this.genre.length) 
-          ? true
-          // this.genre refers to the genre property that is passed in from the root.
-          : this.genre.find(category => movie.genre === category);
-      });
+  methods: {
+    moviePassesGenreFilter(movie) {
+      if (!this.genre.length) {
+        return true;
+      } else {
+        // create a new Array for the genres stored in each movie
+        let genresForEachMovie = movie.movie.Genre.split(', ');
+        let matched = true;
+        // this.genre refers to the genre of the clicked radio button
+        this.genre.forEach(genre => {
+          if (genresForEachMovie.indexOf(genre)  === -1) {
+            matched = false;
+          }
+        })
+        // return all movies that match genre
+        return matched;
+      }
     }
   },
-  components: { MovieItem }
+  computed: {
+    filteredMovies() {
+      return this.movies.filter(this.moviePassesGenreFilter);
+    }
+  },
+  filters: {
+    joinGenres(value) {
+      return value.join(", ");
+    }
+  },
+  components: { 
+    MovieItem 
+  }
 }
 </script>
 <!-- Styles -->
