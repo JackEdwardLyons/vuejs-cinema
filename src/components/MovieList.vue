@@ -5,7 +5,8 @@
       <movie-item v-for="movie in filteredMovies" 
                   :movie="movie.movie" 
                   :sessions="movie.sessions"
-                  :day="day">
+                  :day="day"
+                  :time="time">
       </movie-item>
     </div>
     <div v-else-if="movies.length" class="no-results">
@@ -20,6 +21,7 @@
 <script>
 import genres    from "../util/genres.js";
 import MovieItem from "./MovieItem.vue";
+import times     from "../util/times.js";
 
 export default { 
   props: [ 'genre', 'time', 'movies', 'day' ],
@@ -40,11 +42,26 @@ export default {
         // return all movies that match genre
         return matched;
       }
+    },
+    sessionPassesTimeFilter(session) {
+      // if the session is not the same as the current day...
+      if (!this.day.isSame(this.$moment(session.time), 'day')) {
+        return false;
+        // if no filters selected, or if both filters selected...
+      } else if (this.time.length === 0 || this.time.length === 2) {
+        return true;
+      } else if (this.time[0] === times.AFTER_6PM) {
+        return this.$moment(session.time).hour() >= 18;
+      } else {
+        return this.$moment(session.time).hour() <= 18;
+      }
     }
   },
   computed: {
     filteredMovies() {
-      return this.movies.filter(this.moviePassesGenreFilter);
+      return this.movies
+        .filter(this.moviePassesGenreFilter)
+        .filter(movie => movie.sessions.find(this.sessionPassesTimeFilter))
     }
   },
   filters: {

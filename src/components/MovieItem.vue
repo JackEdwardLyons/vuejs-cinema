@@ -21,20 +21,35 @@
 </template>
 
 <script>
+import times from "../util/times.js";
+
 export default {
-  props: [ 'movie', 'sessions', 'day' ],
+  props: [ 'movie', 'sessions', 'day', 'time' ],
+  data() {
+    return {
+      times
+    }
+  },
   methods: {
     formattedSession(val) {
       // define a time format string
       return this.$moment(val).format('h:mm A');
     },
     filteredSessions(sessions) {
-      // log each session in DB
-      console.log(this.$moment(sessions.time));
-      return sessions.filter(session => {
-        // check sessions agains the isSame() method to only grab those that are 'today'
-        return this.$moment(session.time).isSame(this.day, 'day');
-      });
+      return sessions.filter(this.sessionPassesTimeFilter);
+    },
+    sessionPassesTimeFilter(session) {
+      // if the session is not the same as the current day...
+      if (!this.day.isSame(this.$moment(session.time), 'day')) {
+        return false;
+        // if no filters selected, or if both filters selected...
+      } else if (this.time.length === 0 || this.time.length === 2) {
+        return true;
+      } else if (this.time[0] === times.AFTER_6PM) {
+        return this.$moment(session.time).hour() >= 18;
+      } else {
+        return this.$moment(session.time).hour() <= 18;
+      }
     }
   }
 }
