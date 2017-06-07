@@ -2,7 +2,11 @@
 <template>
   <div id="movie-list">
     <div v-if="filteredMovies.length">
-      <movie-item v-for="movie in filteredMovies" :movie="movie.movie" :sessions="movie.sessions"></movie-item>
+      <movie-item v-for="movie in filteredMovies" 
+                  :movie="movie.movie" 
+                  :sessions="movie.sessions"
+                  :day="day">
+      </movie-item>
     </div>
     <div v-else-if="movies.length" class="no-results">
       No results for {{ genre | joinGenres }}
@@ -18,7 +22,7 @@ import genres    from "../util/genres.js";
 import MovieItem from "./MovieItem.vue";
 
 export default { 
-  props: [ 'genre', 'time', 'movies' ],
+  props: [ 'genre', 'time', 'movies', 'day' ],
   methods: {
     moviePassesGenreFilter(movie) {
       if (!this.genre.length) {
@@ -53,7 +57,3 @@ export default {
   }
 }
 </script>
-<!-- Styles -->
-<style>
-
-</style>
