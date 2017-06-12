@@ -16,8 +16,8 @@ export default {
   methods: {
     checkFilter() {
       this.checked = !this.checked;
-      // $emit can take infinite number of args
-      this.$emit('check-filter', this.category, this.title, this.checked);
+      // $emit can take infinite number of args, this.$bus emits straight to the Root
+      this.$bus.$emit('check-filter', this.category, this.title, this.checked);
     }
   },
   data() {
@@ -27,7 +27,3 @@ export default {
   }
 }
 </script>
-<!-- Styles -->
-<style>
-
-</style>

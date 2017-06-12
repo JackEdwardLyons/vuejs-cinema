@@ -10,7 +10,6 @@
       <check-filter v-for="(time, key) in times" 
                     :title="time"
                     category="time"
-                    @check-filter="checkFilter"
                     :key="key">
       </check-filter>
       <!-- Filter Genre -->
@@ -18,7 +17,6 @@
       <check-filter v-for="(genre, key) in genres" 
                     :title="genre" 
                     category="genre"
-                    @check-filter="checkFilter"
                     :key="key">
       </check-filter>
     </div>
@@ -35,12 +33,6 @@ export default {
     return {
       genres,
       times
-    }
-  },
-  methods: {
-    checkFilter(category, title, checked) {
-      // pass the args up the chain to the root instance
-      this.$emit('check-filter', category, title, checked);
     }
   },
   // This component only exists within the movie-filter

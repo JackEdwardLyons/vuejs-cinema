@@ -15,6 +15,11 @@ Object.defineProperty(Vue.prototype, '$moment', {
   // every component has access to $root of the app
   get() { return this.$root.moment } 
 });
+// Create an event bus to store emitted values from children
+const bus = new Vue();
+Object.defineProperty(Vue.prototype, '$bus', {
+  get() { return this.$root.bus }
+})
 
 
 new Vue({
@@ -24,6 +29,7 @@ new Vue({
     time:   [],
     movies: [],
     moment,
+    bus,// the event bus
     day: moment() // current day
   },
   methods: {
@@ -48,6 +54,7 @@ new Vue({
     this.$http.get('/api').then(response => {
       this.movies = response.data;  // .map(movie => movie.movie['Title'])
       console.log(this.movies);
-    })
+    });
+    this.$bus.$on('check-filter', this.checkFilter);
   }
 });
