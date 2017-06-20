@@ -1,8 +1,7 @@
 import Vue from "vue";
 import "./style.scss";
-// Components
-import MovieList from './components/MovieList.vue';
-import MovieFilter from './components/MovieFilter.vue';
+// components
+import Overview from './components/Overview.vue';
 // ajax
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
@@ -22,7 +21,6 @@ Object.defineProperty(Vue.prototype, '$bus', {
   get() { return this.$root.bus }
 })
 
-
 new Vue({
 	el: "#app",
   data: {
@@ -30,13 +28,10 @@ new Vue({
     time:   [],
     movies: [],
     moment,
-    bus,// the event bus
+    bus, // the event bus
     day: moment() // current day
   },
-	components: {
-    MovieList,
-		MovieFilter
-  },
+  components: { Overview },
   created() {
     this.$http.get('/api').then(response => {
       this.movies = response.data;  // .map(movie => movie.movie['Title'])
