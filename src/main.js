@@ -20,6 +20,11 @@ const bus = new Vue();
 Object.defineProperty(Vue.prototype, '$bus', {
   get() { return this.$root.bus }
 })
+// import Vue-router 
+import VueRouter from 'vue-router';
+import routes    from './util/routes';
+Vue.use(VueRouter);
+const router = new VueRouter({ routes })
 
 new Vue({
 	el: "#app",
@@ -38,5 +43,7 @@ new Vue({
       console.log(this.movies);
     });
     this.$bus.$on('check-filter', checkFilter.bind(this));
-  }
+  },
+  // destructured object property referring to the Vue router const above.
+  router
 });

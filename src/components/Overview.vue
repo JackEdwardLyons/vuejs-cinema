@@ -9,7 +9,7 @@
 
 <script>
 // Components
-import MovieList from './MovieList.vue';
+import MovieList   from './MovieList.vue';
 import MovieFilter from './MovieFilter.vue';
 
 export default {
