@@ -1,31 +1,35 @@
 import Vue from "vue";
 import "./style.scss";
-// components
-import Overview from './components/Overview.vue';
+
 // ajax
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
+
 // moment.js 
 import moment from 'moment-timezone';
 moment.tz.setDefault('UTC');
+
 // add property to existing object
 // use $ to indicate it is a public API method
 Object.defineProperty(Vue.prototype, '$moment', { 
   // every component has access to $root of the app
   get() { return this.$root.moment } 
 });
+
 // Create an event bus to store emitted values from children
 import { checkFilter } from './util/bus';
 const bus = new Vue();
 Object.defineProperty(Vue.prototype, '$bus', {
   get() { return this.$root.bus }
 })
-// import Vue-router 
+
+// Vue-router 
 import VueRouter from 'vue-router';
 import routes    from './util/routes';
 Vue.use(VueRouter);
 const router = new VueRouter({ routes })
 
+// Vue instance
 new Vue({
 	el: "#app",
   data: {
@@ -36,7 +40,6 @@ new Vue({
     bus, // the event bus
     day: moment() // current day
   },
-  components: { Overview },
   created() {
     this.$http.get('/api').then(response => {
       this.movies = response.data;  // .map(movie => movie.movie['Title'])
