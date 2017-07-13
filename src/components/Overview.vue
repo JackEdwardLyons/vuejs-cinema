@@ -20,3 +20,12 @@ export default {
   }
 }
 </script>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Maven+Pro');
+* {
+  font-family: 'Maven Pro', sans-serif;
+}
+p, li, td, tr {
+  font-size: 1.1em;
+}
+</style>
