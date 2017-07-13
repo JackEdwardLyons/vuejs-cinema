@@ -1,20 +1,26 @@
 <!-- Template -->
 <template>
   <div id="movie-list">
+
     <div v-if="filteredMovies.length">
-      <movie-item v-for="movie in filteredMovies" 
-                  :movie="movie.movie" 
-                  :sessions="movie.sessions"
-                  :day="day"
-                  :time="time">
+      <movie-item v-for="movie in filteredMovies" :movie="movie.movie">
+        <!-- Session Times as SLOT for main page only -->
+        <div class="movie-sessions">
+          <div v-for="session in filteredSessions(movie.sessions)" class="session-time-wrapper">
+            <div class="session-time">{{ formattedSession(session.time) }}</div>
+          </div>
+        </div>
       </movie-item>
     </div>
+
     <div v-else-if="movies.length" class="no-results">
       No results for {{ genre | joinGenres }}
     </div>
+
     <div v-else class="no-results">
       Loading...
     </div>
+
   </div>
 </template>
 <!-- JavaScript -->
@@ -55,6 +61,13 @@ export default {
       } else {
         return this.$moment(session.time).hour() <= 18;
       }
+    },
+    formattedSession(val) {
+      // define a time format string
+      return this.$moment(val).format('h:mm A');
+    },
+    filteredSessions(sessions) {
+      return sessions.filter(this.sessionPassesTimeFilter);
     }
   },
   computed: {
