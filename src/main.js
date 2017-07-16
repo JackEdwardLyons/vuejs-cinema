@@ -16,8 +16,10 @@ Object.defineProperty(Vue.prototype, '$moment', {
   get() { return this.$root.moment } 
 });
 
+// Import Check filter and set day logic
+import { checkFilter, setDay } from './util/bus';
+
 // Create an event bus to store emitted values from children
-import { checkFilter } from './util/bus';
 const bus = new Vue();
 Object.defineProperty(Vue.prototype, '$bus', {
   get() { return this.$root.bus }
@@ -45,7 +47,9 @@ new Vue({
       this.movies = response.data;  // .map(movie => movie.movie['Title'])
       console.log(this.movies);
     });
-    this.$bus.$on('check-filter', checkFilter.bind(this));
+    
+    this.$bus.$on('check-filter', checkFilter.bind(this)); // import Check Filter logic with .bind()
+    this.$bus.$on('set-day', setDay.bind(this)); // change set day on click of Day Select
   },
   // destructured object property referring to the Vue router const above.
   router
