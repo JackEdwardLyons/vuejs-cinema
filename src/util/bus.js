@@ -1,3 +1,7 @@
+/**
+ * The Global Event Bus
+ * ===================== */
+
 function checkFilter(category, genre, checked) {
   // filter movies based on payload received from filter buttons
   if (checked) {

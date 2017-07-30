@@ -28,6 +28,7 @@ Object.defineProperty(Vue.prototype, '$bus', {
 // Vue-router 
 import VueRouter from 'vue-router';
 import routes    from './util/routes';
+
 Vue.use(VueRouter);
 const router = new VueRouter({ routes })
 
@@ -45,7 +46,6 @@ new Vue({
   created() {
     this.$http.get('/api').then(response => {
       this.movies = response.data;  // .map(movie => movie.movie['Title'])
-      console.log(this.movies);
     });
     
     this.$bus.$on('check-filter', checkFilter.bind(this)); // import Check Filter logic with .bind()

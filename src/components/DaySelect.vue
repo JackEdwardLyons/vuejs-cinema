@@ -4,6 +4,10 @@
       <li :class="{ day: true, active: isActive(day) }" v-for="day in days" @click="selectDay(day)">
         {{ formatDay( day ) }}
       </li>
+      <li class="day-selector">
+        <span class="dec" @click="changeDay(-1)"></span>
+        <span class="inc" @click="changeDay(+1)"></span>
+      </li>
     </ul>
   </div>
 </template>
@@ -28,7 +32,22 @@
       },
       selectDay(day) {
         this.$bus.$emit('set-day', day);
+      },
+      changeDay(change) {
+        // moment.js .add() method
+        let newDay = this.$moment(this.selected).add(change, 'days');
+        // ensure date can't exceed what is available in API
+        if (this.days.find(day === newDay.isSame(day, 'day'))) {
+          this.selectDay(newDay);
+        }
+
       }
     }
   }
 </script>
+<style>
+.day-selector {
+  top: -10px;
+  position:relative;
+}
+</style>
