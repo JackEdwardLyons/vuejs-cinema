@@ -6,7 +6,10 @@
       <movie-item v-for="movie in filteredMovies" :movie="movie.movie">
         <!-- Session Times as SLOT for main page only -->
         <div class="movie-sessions">
-          <div v-for="session in filteredSessions(movie.sessions)" class="session-time-wrapper">
+          <div     v-for="session in filteredSessions(movie.sessions)" 
+                   class="session-time-wrapper tooltip-wrapper"
+               v-tooltip="{ seats: session.seats }"
+          >
             <div class="session-time">{{ formattedSession(session.time) }}</div>
           </div>
         </div>
