@@ -2,9 +2,8 @@
   <div id="day-select">
     <ul class="days">
       <li :class="{ day: true, active: isActive(day) }" 
-          v-for="day in days"
-          @click="selectDay(day)"
-      >
+          v-for="day in days" 
+          @click="selectDay(day)">
         {{ formatDay( day ) }}
       </li>
       <li class="day-selector">
@@ -34,7 +33,7 @@
         return day.isSame(this.selected, 'day'); // is the selected day same as today?
       },
       selectDay(day) {
-        this.$bus.$emit('set-day', day);
+        this.$store.commit('setDay', day);
       },
       changeDay(change) {
         // moment.js .add() method
@@ -43,7 +42,6 @@
         if (this.days.find(day === newDay.isSame(day, 'day'))) {
           this.selectDay(newDay);
         }
-
       }
     }
   }

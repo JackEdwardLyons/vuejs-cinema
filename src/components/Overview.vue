@@ -5,7 +5,6 @@
           <movie-list :genre="genre" :time="time" :movies="movies" :day="day"></movie-list>
           <movie-filter></movie-filter>
       </div>
-      <!-- Store: {{ $store.state.count }}   -->
   </div>
 </template>
 
@@ -16,11 +15,16 @@ import MovieList   from './MovieList.vue';
 import MovieFilter from './MovieFilter.vue';
 
 export default {
-  props: [ 'genre', 'time', 'movies', 'day' ],
+  props: [ 'genre', 'time', 'movies' ],
   components: {
     MovieList,
     MovieFilter,
     DaySelect
+  },
+  computed: {
+    day() {
+      return this.$store.state.day
+    }
   }
 }
 </script>

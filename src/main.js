@@ -3,12 +3,11 @@ import "./style.scss";
 // ajax
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
-// Vuex
-import store from './store/store'
 // moment.js 
 import moment from 'moment-timezone';
 moment.tz.setDefault('UTC');
-
+// Vuex
+import store from './store/store'
 // Add property to existing object
 // use $ to indicate it is a public API method
 Object.defineProperty(Vue.prototype, '$moment', { 
