@@ -1,15 +1,15 @@
 import Vue from "vue";
 import "./style.scss";
-
 // ajax
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
-
+// Vuex
+import store from './store/store'
 // moment.js 
 import moment from 'moment-timezone';
 moment.tz.setDefault('UTC');
 
-// add property to existing object
+// Add property to existing object
 // use $ to indicate it is a public API method
 Object.defineProperty(Vue.prototype, '$moment', { 
   // every component has access to $root of the app
@@ -18,7 +18,6 @@ Object.defineProperty(Vue.prototype, '$moment', {
 
 // Import Check filter and set day logic
 import { checkFilter, setDay } from './util/bus';
-
 // Create an event bus to store emitted values from children
 const bus = new Vue();
 Object.defineProperty(Vue.prototype, '$bus', {
@@ -31,11 +30,9 @@ import routes    from './util/routes';
 
 Vue.use(VueRouter);
 const router = new VueRouter({ routes })
-
 // import Tooltop into Vue
 import Tooltip from './util/tooltip';
 Vue.use(Tooltip);
-
 // Vue instance
 new Vue({
 	el: "#app",
@@ -56,5 +53,8 @@ new Vue({
     this.$bus.$on('set-day', setDay.bind(this)); // change set day on click of Day Select
   },
   // destructured object property referring to the Vue router const above.
-  router
+  router,
+  // By providing the store option to the root instance, the store will be injected 
+  // into all child components of the root and will be available on them as this.$store.
+  store
 });

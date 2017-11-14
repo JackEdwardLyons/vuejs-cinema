@@ -5,6 +5,7 @@
           <movie-list :genre="genre" :time="time" :movies="movies" :day="day"></movie-list>
           <movie-filter></movie-filter>
       </div>
+      <!-- Store: {{ $store.state.count }}   -->
   </div>
 </template>
 
